@@ -36,6 +36,8 @@ p a {
   min-height: 600px;
   display: grid;
   grid-template-columns: 50% 50%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 .editor textarea {
   width: 100%;
