@@ -4,8 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pairify</title>
+  <link rel="stylesheet" href="assets/codemirror.css">
+  <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
+  <h1>Pairify</h1>
+  <p>It analyzes code and searches for balanced matches. Super-fast. No AST involved.<br />
+  <a href="https://github.com/krasimir/pairify"><strong>🚀 Documentation</strong></a></p>
+  <div class="container">
+    <div class="editor column">
+      <div class="cursor"></div>
+      <textarea></textarea>
+    </div>
+    <div class="tokens column">
+
+    </div>
+  </div>
+  <script src="/assets/codemirror.js"></script>
+  <script src="/assets/javascript.js"></script>
   <script src="/assets/app.js"></script>
 </body>
 </html>

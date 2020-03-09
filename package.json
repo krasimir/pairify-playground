@@ -21,7 +21,7 @@
   "dependencies": {
     "browserify": "16.5.0",
     "concurrently": "5.1.0",
-    "pairify": "0.2.2",
+    "pairify": "0.2.4",
     "watchify": "3.11.1"
   }
 }
