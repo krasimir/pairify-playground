@@ -5,7 +5,7 @@ body, html {
   font-size: 18px;
   margin: 0;
   padding: 0;
-  background: white;
+  background: #dedede;
   color: black;
 }
 * { 
@@ -28,14 +28,18 @@ h2 {
 p {
   text-align: center;
   max-width: 800px;
-  margin: 2em auto;
+  margin: 0 auto 1em auto;
 }
-p a {
+a {
   color: #000;
+}
+.container-wrapper {
+  background: white;
+  border-top: solid 1px #999;
+  border-bottom: solid 1px #999;
 }
 .container {
   margin-top: 1em;
-  min-height: 600px;
   display: grid;
   grid-template-columns: 50% 50%;
   max-width: 1400px;
@@ -69,14 +73,14 @@ p a {
   margin-right: 0.2em;
   font-size: 0.8em;
 }
-.editor label {
+label {
   display: block;
   margin-bottom: 1em;
-  padding: 0px 0 0 12px;
+  padding: 0px 0 0 0;
   font-size: 0.9em;
   opacity: 0.3;
 }
-.editor label:hover {
+label:hover {
   opacity: 1;
 }
 .cursor {
@@ -104,12 +108,25 @@ p a {
 .pairify-pair {
   background: #efb4e9;
 }
+.how-to {
+  margin-top: 2em;
+}
 .how-to pre {
-  max-width: 700px;
-  font-size: 0.8em;
+  max-width: 460px;
+  font-size: 1em;
   margin: 2em auto;
-  padding: 1em;
+  padding: 2em;
   background: #f0f0f0;
   border: solid 1px #999;
   border-radius: 4px;
+}
+.raw pre {
+  font-size: 0.8em;
+}
+footer {
+  width: 300px;
+  border-top: solid 1px #999;
+  padding-top: 2em;
+  margin: 2em auto;
+  text-align: center;
 }

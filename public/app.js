@@ -190,27 +190,37 @@ function printAnswer(answer) {
 }`;
 let currentPairs = [];
 let currentScopeMarker = null;
-let markScope = true;
+let markScope = false;
+let rawAnalysis = false;
 
 function analyze() {
   const pairs = pairify.analyze(editor.getValue());
-  const pairsByType = pairs.reduce((res, pair) => {
-    if (!res[pair.type]) res[pair.type] = [];
-    res[pair.type].push(pair);
-    return res;
-  }, {});
-  currentPairs = Object.keys(pairsByType)
-  .reduce((res, type) => {
-    return res.concat(pairsByType[type]);
-  }, []);
-  $('.tokens .links').innerHTML = '<ul>' + 
-    currentPairs
-    .map((pair, idx) => {
-      return `
-        <a href="javascript:void(0)" onMouseOver="javascript:pairOver(${idx})"><strong>${pair.type}</strong> <small>${pair.from[0]}:${pair.from[1]} ― ${pair.to[0]}:${pair.to[1]}</small></a>
-      `;
-    })
-    .map(link => `<li>${link}</li>`).join('') + '</ul>';
+
+  if (rawAnalysis) {
+    $('.tokens .links').innerHTML = `<div class="raw"><pre><code>[\n${
+      pairs.map(pair => {
+        return `  ${JSON.stringify(pair)}`;
+      }).join(',\n')
+    }\n]</code></pre></div>`;
+  } else {
+    const pairsByType = pairs.reduce((res, pair) => {
+      if (!res[pair.type]) res[pair.type] = [];
+      res[pair.type].push(pair);
+      return res;
+    }, {});
+    currentPairs = Object.keys(pairsByType)
+    .reduce((res, type) => {
+      return res.concat(pairsByType[type]);
+    }, []);
+    $('.tokens .links').innerHTML = '<ul>' + 
+      currentPairs
+      .map((pair, idx) => {
+        return `
+          <a href="javascript:void(0)" onMouseOver="javascript:pairOver(${idx})"><strong>${pair.type}</strong> <small>${pair.from[0]}:${pair.from[1]} ― ${pair.to[0]}:${pair.to[1]}</small></a>
+        `;
+      })
+      .map(link => `<li>${link}</li>`).join('') + '</ul>';
+  }
 }
 
 window.pairOver = (pairIdx) => {
@@ -251,7 +261,7 @@ window.onload = function () {
     }
   }
   editor = CodeMirror.fromTextArea($('.editor textarea'), {
-    lineNumbers: true,
+    lineNumbers: false,
     viewportMargin: Infinity,
     lineWrapping: true,
     mode: 'jsx'
@@ -271,11 +281,16 @@ window.onload = function () {
     }
   });
 
-  $('input[type="checkbox"]').addEventListener('change', () => {
+  $('.mark-current-scope').addEventListener('change', () => {
     markScope = !markScope;
     if (currentScopeMarker) {
       currentScopeMarker.clear();
     }
+  });
+
+  $('.raw-analysis').addEventListener('change', () => {
+    rawAnalysis = !rawAnalysis;
+    analyze();
   });
 
   editor.setValue(CODE);
