@@ -21,8 +21,14 @@ function Example() {
       </button>
     </div>
   );
+}
+
+function printAnswer(answer) {
+  console.log(\`The answer is: \${answer}\`);
 }`;
 let currentPairs = [];
+let currentScopeMarker = null;
+let markScope = true;
 
 function analyze() {
   const pairs = pairify.analyze(editor.getValue());
@@ -35,47 +41,78 @@ function analyze() {
   .reduce((res, type) => {
     return res.concat(pairsByType[type]);
   }, []);
-  $('.tokens').innerHTML = '<ul>' + 
+  $('.tokens .links').innerHTML = '<ul>' + 
     currentPairs
     .map((pair, idx) => {
       return `
-        <a href="javascript:void(0)" data-pair="${idx}"><strong>${pair.type}</strong> <small>${pair.from[0]}:${pair.from[1]} ― ${pair.to[0]}:${pair.to[1]}</small></a>
+        <a href="javascript:void(0)" onMouseOver="javascript:pairOver(${idx})"><strong>${pair.type}</strong> <small>${pair.from[0]}:${pair.from[1]} ― ${pair.to[0]}:${pair.to[1]}</small></a>
       `;
     })
     .map(link => `<li>${link}</li>`).join('') + '</ul>';
 }
 
+window.pairOver = (pairIdx) => {
+  const pair = currentPairs[parseInt(pairIdx)];
+  if (pair) {
+    if (currentScopeMarker) {
+      currentScopeMarker.clear();
+    }
+    currentScopeMarker = editor.markText(
+      { line: pair.from[0]-1, ch: pair.from[1]-1 },
+      { line: pair.to[0]-1, ch: pair.to[1]-1 },
+      { className: 'pairify-pair' }
+    )
+  } else {
+    console.warn(`Pair with index ${pairIdx} not found!`)
+  }
+}
 
 window.onload = function () {
+  let focused = false;
+  function onCursorActivity() {
+    if (focused) {
+      const { line, ch } = editor.getCursor();
+      $('.cursor').innerHTML = `${line+1}:${ch+1}`;
+      
+      const matchingPairs = pairify.match(editor.getValue(), line+1, ch+1).filter(({ type }) => type === 'curly');
+      if (currentScopeMarker) {
+        currentScopeMarker.clear();
+      }
+      if (matchingPairs.length > 0 && markScope) {
+        const {from, to} = matchingPairs.pop();
+        currentScopeMarker = editor.markText(
+          { line: from[0]-1, ch: from[1]-1 },
+          { line: to[0]-1, ch: to[1]-1 },
+          { className: 'pairify-scope' }
+        )
+      }
+    }
+  }
   editor = CodeMirror.fromTextArea($('.editor textarea'), {
     lineNumbers: true,
     viewportMargin: Infinity,
-    lineWrapping: true
+    lineWrapping: true,
+    mode: 'jsx'
   });
   editor.on('change', analyze);
-  editor.on('cursorActivity', () => {
-    const { line, ch } = editor.getCursor();
-    $('.cursor').innerHTML = `${line+1}:${ch+1}`;
-  });
+  editor.on('cursorActivity', onCursorActivity);
   editor.on('focus', () => {
+    focused = true;
     $('.cursor').style.display = 'block';
+    setTimeout(onCursorActivity, 1);
   });
   editor.on('blur', () => {
+    focused = false;
     $('.cursor').style.display = 'none';
+    if (currentScopeMarker) {
+      currentScopeMarker.clear();
+    }
   });
-  
-  $('.tokens').addEventListener('mouseover', event => {
-    const pairIdx = event.target.getAttribute('data-pair');
-    if (pairIdx) {
-      const pair = currentPairs[parseInt(pairIdx)];
-      if (pair) {
-        editor.setSelection(
-          { line: pair.from[0]-1, ch: pair.from[1]-1 },
-          { line: pair.to[0]-1, ch: pair.to[1]-1 }
-        );
-      } else {
-        console.warn(`Pair with index ${pairIdx} not found!`)
-      }
+
+  $('input[type="checkbox"]').addEventListener('change', () => {
+    markScope = !markScope;
+    if (currentScopeMarker) {
+      currentScopeMarker.clear();
     }
   });
 

@@ -21,16 +21,49 @@
   </p>
   <div class="container">
     <div class="editor column">
+      <label>
+        <input type="checkbox" checked/> mark current scope
+      </label>
       <textarea></textarea>
       <div class="cursor"></div>
     </div>
     <div class="tokens column">
-
+      <div class="links"></div>
     </div>
+  </div>
+  <div class="how-to">
+    <h2>
+      Simple usage
+    </h2>
+    <pre><code>import pairify from 'pairify';
+
+const pairs = pairify.analyze(code);
+// or
+const matchedPairs = pairify.match(code, 3, 10); // line=3 position=10
+/*
+[
+  { type: 'curly', from: [ 1, 9 ], to: [ 1, 42 ], body: [ 8, 33 ] },
+  { type: 'curly', from: [ 1, 44 ], to: [ 1, 53 ], body: [ 43, 9 ] },
+  { type: 'round', from: [ 1, 8 ], to: [ 1, 54 ], body: [ 7, 46 ] },
+  ...
+]
+*/</code></pre>
   </div>
   <script src="/assets/codemirror.js"></script>
   <script src="/assets/javascript.js"></script>
+  <script src="/assets/xml.js"></script>
+  <script src="/assets/jsx.js"></script>
   <script src="/assets/app.js"></script>
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-1621908-15"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-1621908-15');
+  </script>
+
 </body>
 </html>

@@ -69,6 +69,16 @@ p a {
   margin-right: 0.2em;
   font-size: 0.8em;
 }
+.editor label {
+  display: block;
+  margin-bottom: 1em;
+  padding: 0px 0 0 12px;
+  font-size: 0.9em;
+  opacity: 0.3;
+}
+.editor label:hover {
+  opacity: 1;
+}
 .cursor {
   color: #999;
   font-size: 0.7em;
@@ -87,4 +97,19 @@ p a {
 .CodeMirror-gutters {
   background: white;
   padding-right: 10px;
+}
+.pairify-scope {
+  background: #d2f1e2;
+}
+.pairify-pair {
+  background: #efb4e9;
+}
+.how-to pre {
+  max-width: 700px;
+  font-size: 0.8em;
+  margin: 2em auto;
+  padding: 1em;
+  background: #f0f0f0;
+  border: solid 1px #999;
+  border-radius: 4px;
 }

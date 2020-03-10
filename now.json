@@ -1,5 +1,4 @@
 {
-  "name": "pairify",
   "version": 2,
   "builds": [
     { "src": "public/*.*", "use": "@now/static" },
