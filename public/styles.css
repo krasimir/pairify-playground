@@ -62,15 +62,27 @@ p a {
   list-style: none;
 }
 .tokens ul li {
+  display: inline-block;
   margin-bottom: 0.2em;
+  margin-right: 0.2em;
+  font-size: 0.8em;
 }
 .cursor {
-  background: #f7f7f7;
-  color: rgb(61, 61, 61);
-  font-size: 0.75em;
-  padding: 0.4em;
+  color: #999;
+  font-size: 0.7em;
+  padding: 0.4em 0;
   text-align: right;
-  border-top-left-radius: 0.4em;
-  border-top-right-radius: 0.4em;
-  border-bottom: solid 1px #dddddd;
+  border-top: solid 1px #eeeeee;
+  display: none;
+}
+.CodeMirror {
+  font-size: 0.8em;
+  height: auto;
+}
+.CodeMirror-linenumbers {
+  font-size: 0.3em;
+}
+.CodeMirror-gutters {
+  background: white;
+  padding-right: 10px;
 }
