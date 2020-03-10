@@ -11,22 +11,24 @@ body, html {
 * { 
   box-sizing: border-box;
 }
-h1, h3 {
+h1, h2 {
   margin: 0;
   text-align: center;
 }
 h1 {
+  font-size: 3em;
   padding-top: 1em;
   padding-bottom: 0.5em;
 }
-h3 {
-  padding-bottom: 2em;
+h2 {
+  font-weight: normal;
+  padding: 0 1em 1em 1em;
+  font-size: 1.3em;
 }
 p {
-  margin: 0;
   text-align: center;
-  max-width: 400px;
-  margin: 0 auto;
+  max-width: 800px;
+  margin: 2em auto;
 }
 p a {
   color: #000;
